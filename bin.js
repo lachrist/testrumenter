@@ -48,7 +48,7 @@ if (process.argv.length === 5) {
     const cross = Testrumenter.cross(ipath, tpath);
     Log("green", "\n"+JSON.stringify(cross)+"\n");
     const tlength = Object.keys(cross).length;
-    const ilength = tlength ? Object.keys(cross[Object.keys(cross)[0]].times).length : 0;
+    const ilength = tlength ? Object.keys(cross[Object.keys(cross)[0]][2]).length : 0;
     Log("bgGreen", "\n"+(ilength*tlength)+" tests done ("+ilength+" instrumenters X "+tlength+" targets), all passed\n");
   }
 }
