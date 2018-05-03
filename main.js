@@ -58,8 +58,8 @@ exports.test = (instrumenter, tpath) => {
     Log("green", print(global.eval(instrumented))+"\n");
     return true;
   } catch (error) {
-    Log("bgYellow", "Error while evaluating the instrumented code of "+Path.basename(path)+":\n");
-    Log("yellow", (error instanceof Error ? error.stack : print(error) + "\n"));
+    Log("bgYellow", "Error while evaluating the instrumented code of "+Path.basename(tpath)+":\n");
+    Log("yellow", (error instanceof Error ? error.stack : print(error)) + "\n");
     return false;
   }
 };
