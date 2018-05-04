@@ -34,11 +34,11 @@ if (process.argv.length === 5) {
       Testrumenter.test(instrumenter, tpath);
     } else {
       const suite = Testrumenter.suite(instrumenter, tpath, true);
-      const failures = Object.keys(suite).filter((key) => suite[key].time === null);
+      const failures = Object.keys(suite).filter((key) => suite[key][0] === null);
       if (failures.length) {
         Log("yellow", JSON.stringify(suite)+"\n");
         Log("bgYellow", Object.keys(suite).length+" tests done, got "+failures.length+" failures:\n");
-        failures.forEach((key) => { Log("bgYellow", "  - "+key+" >> "+suite[key].output+"\n") });
+        failures.forEach((key) => { Log("yellow", "  - "+key+" >> "+suite[key][1]+"\n") });
       } else {
         Log("green", JSON.stringify(suite)+"\n");
         Log("bgGreen", Object.keys(suite).length+" tests done, all passed\n");
