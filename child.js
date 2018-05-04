@@ -12,5 +12,5 @@ try {
 }
 Fs.writeFileSync(
   Path.join(__dirname, "tmp.json"),
-  JSON.stringify(Testrumenter.suite(Instrument, process.argv[3], false)),
+  JSON.stringify(Testrumenter.suite(Instrument, process.argv[3])),
   "utf8");

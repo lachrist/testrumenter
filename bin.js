@@ -34,11 +34,11 @@ if (process.argv.length === 5) {
       Testrumenter.test(instrumenter, tpath);
     } else {
       const suite = Testrumenter.suite(instrumenter, tpath, true);
-      const failures = Object.keys(suite).filter((key) => suite[key][0] === null);
+      const failures = Object.keys(suite).filter((key) => suite[key][0] === null).map((key) => "  - "+key+" >> "+suite[key][1]+"\n");
       if (failures.length) {
         Log("yellow", JSON.stringify(suite)+"\n");
         Log("bgYellow", Object.keys(suite).length+" tests done, got "+failures.length+" failures:\n");
-        failures.forEach((key) => { Log("yellow", "  - "+key+" >> "+suite[key][1]+"\n") });
+        Log("yellow", failures.join(""));
       } else {
         Log("green", JSON.stringify(suite)+"\n");
         Log("bgGreen", Object.keys(suite).length+" tests done, all passed\n");
@@ -46,9 +46,23 @@ if (process.argv.length === 5) {
     }
   } else {
     const cross = Testrumenter.cross(ipath, tpath);
-    Log("green", "\n"+JSON.stringify(cross)+"\n");
-    const tlength = Object.keys(cross).length;
-    const ilength = tlength ? Object.keys(cross[Object.keys(cross)[0]][2]).length : 0;
-    Log("bgGreen", "\n"+(ilength*tlength)+" tests done ("+ilength+" instrumenters X "+tlength+" targets), all passed\n");
+    let counter = 0;
+    const failures = [];
+    for (let tname in cross) {
+      for (let iname in cross[tname][2]) {
+        counter++;
+        if (typeof cross[tname][2][iname] !== "number") {
+          failures.push("  - "+iname+"("+tname+") >> "+cross[tname][2][iname]+"\n");
+        }
+      }
+    }
+    if (failures.length) {
+      Log("yellow", "\n"+JSON.stringify(cross)+"\n");
+      Log("bgYellow", "\n"+counter+" test done, got "+failures.length+" failures:\n");
+      Log("yellow", failures.join(""));
+    } else {
+      Log("green", "\n"+JSON.stringify(cross)+"\n");
+      Log("bgGreen", "\n"+counter+" tests done, all passed\n");
+    }
   }
 }

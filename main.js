@@ -34,9 +34,15 @@ const childeren = (path) => Fs.readdirSync(path)
 
 const baseline = (tpath) => {
   Log("bgCyan", "\n\n\nBaseline Suite:\n");
-  const suite = exports.suite((script) => script, tpath, false);
-  for (let key in suite)
+  const suite = exports.suite((script) => script, tpath);
+  for (let key in suite) {
+    if (suite[key][0] === null) {
+      Log("bgMagenta", "Error while evaluating the baseline:\n");
+      Log("magenta", suite[key][1]+"\n");
+      process.exit(1);
+    }
     suite[key][2] = {};
+  }
   return suite;
 };
 
@@ -64,7 +70,7 @@ exports.test = (instrumenter, tpath) => {
   }
 };
 
-exports.suite = (instrumenter, tpath, forgiving) => childeren(tpath).reduce((suite, child) => {
+exports.suite = (instrumenter, tpath) => childeren(tpath).reduce((suite, child) => {
   Log("cyan", Path.basename(child, ".js") + "... ");
   const original = Fs.readFileSync(child, "utf8");
   let instrumented;
@@ -88,7 +94,6 @@ exports.suite = (instrumenter, tpath, forgiving) => childeren(tpath).reduce((sui
   } catch (error) {
     Log("bgYellow", "Error while evaluating the instrumented code of "+Path.basename(child)+":\n");
     Log("yellow", (error instanceof Error ? error.stack : print(error)) + "\n");
-    forgiving || process.exit(1);
     suite[Path.basename(child, ".js")] = [
       null,
       error instanceof Error ? error.name +": " + error.message : print(error),
@@ -103,15 +108,17 @@ exports.cross = (ipath, tpath) => childeren(ipath).reduce((cross, child) => {
     Path.join(__dirname, "child.js"),
     child,
     tpath,
-  ], {stdio:[0,1,2]}).status && process.exit(1);
+  ], {stdio:[0,1,2]});
   const suite = JSON.parse(Fs.readFileSync(Path.join(__dirname, "tmp.json"), "utf8"));
   Fs.unlinkSync(Path.join(__dirname, "tmp.json"));
   Object.keys(suite).sort().forEach((key) => {
-    if (suite[key][1] !== cross[key][1]) {
-      Log("bgMagenta", "Output mismatch for "+key+"; expected: "+cross[key][1]+", got: "+suite[key][2]+"\n");
-      process.exit(1);
-    }
-    cross[key][2][Path.basename(child, ".js")] = suite[key][0];
+    cross[key][2][Path.basename(child, ".js")] = (
+      suite[key][0] === null ?
+      suite[key][1] :
+      (
+        suite[key][1] !== cross[key][1] ?
+        "Result mismatch; expected: "+cross[key][1]+", got: "+suite[key][2] :
+        suite[key][0]));
   });
   return cross;
 }, baseline(tpath));
