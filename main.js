@@ -108,7 +108,7 @@ exports.cross = (ipath, tpath) => childeren(ipath).reduce((cross, child) => {
   Fs.unlinkSync(Path.join(__dirname, "tmp.json"));
   Object.keys(suite).sort().forEach((key) => {
     if (suite[key][1] !== cross[key][1]) {
-      Log("bgMagenta", "Output mismatch; expected: "+cross[key][1]+", got: "+suite[key][2]+"\n");
+      Log("bgMagenta", "Output mismatch for "+key+"; expected: "+cross[key][1]+", got: "+suite[key][2]+"\n");
       process.exit(1);
     }
     cross[key][2][Path.basename(child, ".js")] = suite[key][0];
