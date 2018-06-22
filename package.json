@@ -1,7 +1,7 @@
 {
   "name": "testrumenter",
   "description": "Command-line utility to test JavaScript code instrumenter",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": {
     "name": "Laurent Christophe",
     "email": "lachrist@vub.ac.be"
@@ -12,7 +12,7 @@
   "homepage": "http://github.com/lachrist/testrumenter",
   "license": "MIT",
   "dependencies": {
-    "browserify": "^16.2.0",
+    "browserify": "^16.2.2",
     "chalk": "^2.4.1"
   },
   "keywords": [
