@@ -125,7 +125,7 @@ exports.cross = (ipath, tpath) => childeren(ipath).reduce((cross, child) => {
 
 exports.bundle = (ipath, tpath, bpath) => {
   const readable = new Stream.Readable();
-  readable.push("console.dir(eval(require("+JSON.stringify(Path.resolve(ipath))+")("+JSON.stringify(Fs.readFileSync(tpath, "utf8"))+")));");
+  readable.push("console.dir(global.eval(require("+JSON.stringify(Path.resolve(ipath))+")("+JSON.stringify(Fs.readFileSync(tpath, "utf8"))+")));");
   readable.push(null);
   Browserify(readable).bundle((error, buffer) => {
     if (error)
