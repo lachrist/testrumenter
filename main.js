@@ -105,13 +105,15 @@ exports.suite = (instrumenter, tpath) => childeren(tpath).reduce((suite, child) 
 
 exports.cross = (ipath, tpath) => childeren(ipath).reduce((cross, child) => {
   Log("bgCyan", "\n"+Path.basename(child, ".js")+" suite:\n");
+  const opath = "testrumenter"+Math.random().toString(36).substring(2)+".json";
   ChildProcess.spawnSync("node", [
     Path.join(__dirname, "child.js"),
     child,
     tpath,
+    opath
   ], {stdio:[0,1,2]});
-  const suite = JSON.parse(Fs.readFileSync(Path.join(Os.tmpdir(), "testrumenter.json"), "utf8"));
-  Fs.unlinkSync(Path.join(__dirname, "tmp.json"));
+  const suite = JSON.parse(Fs.readFileSync(opath, "utf8"));
+  Fs.unlinkSync(opath);
   Object.keys(suite).sort().forEach((key) => {
     cross[key][2][Path.basename(child, ".js")] = (
       suite[key][0] === null ?

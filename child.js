@@ -12,6 +12,6 @@ try {
   process.exit(1);
 }
 Fs.writeFileSync(
-  Path.join(Os.tmpdir(), "testrumenter.json"),
+  process.argv[4],
   JSON.stringify(Testrumenter.suite(Instrument, process.argv[3])),
   "utf8");
