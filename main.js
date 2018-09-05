@@ -105,7 +105,7 @@ exports.suite = (instrumenter, tpath) => childeren(tpath).reduce((suite, child) 
 
 exports.cross = (ipath, tpath) => childeren(ipath).reduce((cross, child) => {
   Log("bgCyan", "\n"+Path.basename(child, ".js")+" suite:\n");
-  const opath = "testrumenter"+Math.random().toString(36).substring(2)+".json";
+  const opath = Path.join(os.tmpdir(), "testrumenter"+Math.random().toString(36).substring(2)+".json");
   ChildProcess.spawnSync("node", [
     Path.join(__dirname, "child.js"),
     child,
