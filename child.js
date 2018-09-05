@@ -1,4 +1,3 @@
-const Os = require("os");
 const Fs = require("fs");
 const Path = require("path");
 const Testrumenter = require("./main.js");
