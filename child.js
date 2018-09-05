@@ -1,3 +1,4 @@
+const Os = require("os");
 const Fs = require("fs");
 const Path = require("path");
 const Testrumenter = require("./main.js");
@@ -11,6 +12,6 @@ try {
   process.exit(1);
 }
 Fs.writeFileSync(
-  Path.join(__dirname, "tmp.json"),
+  Path.join(Os.tmpdir(), "testrumenter.json"),
   JSON.stringify(Testrumenter.suite(Instrument, process.argv[3])),
   "utf8");

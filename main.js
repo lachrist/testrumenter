@@ -1,4 +1,5 @@
 
+const Os = require("os");
 const Fs = require("fs");
 const Path = require("path");
 const Stream = require("stream");
@@ -109,7 +110,7 @@ exports.cross = (ipath, tpath) => childeren(ipath).reduce((cross, child) => {
     child,
     tpath,
   ], {stdio:[0,1,2]});
-  const suite = JSON.parse(Fs.readFileSync(Path.join(__dirname, "tmp.json"), "utf8"));
+  const suite = JSON.parse(Fs.readFileSync(Path.join(Os.tmpdir(), "testrumenter.json"), "utf8"));
   Fs.unlinkSync(Path.join(__dirname, "tmp.json"));
   Object.keys(suite).sort().forEach((key) => {
     cross[key][2][Path.basename(child, ".js")] = (
