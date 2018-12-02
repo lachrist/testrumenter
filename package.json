@@ -1,7 +1,7 @@
 {
   "name": "testrumenter",
   "description": "Command-line utility to test JavaScript code instrumenter",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "author": {
     "name": "Laurent Christophe",
     "email": "lachrist@vub.ac.be"

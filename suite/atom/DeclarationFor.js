@@ -1,5 +1,5 @@
-(function () {
-  for (var i=0; i<3; i++) {}
-  if (i !== 3)
-    throw new Error("DeclarationFor");
-} ());
+let sum = 0;
+for (let i=0; i<4; i++)
+  sum += i;
+if (sum !== 6)
+  throw new Error("DeclarationFor");

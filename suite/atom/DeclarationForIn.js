@@ -1,5 +1,5 @@
-(function () {
-  for (var k in {a:1}) {}
-  if (k !== "a")
-    throw new Error("DeclarationForIn");
-} ());
+let sum = "";
+for (let k in {a:1,b:2,c:3})
+  sum += k;
+if (sum !== "abc")
+  throw new Error("DeclarationForIn");
