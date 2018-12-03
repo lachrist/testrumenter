@@ -120,7 +120,7 @@ exports.cross = (ipath, tpath) => childeren(ipath).reduce((cross, child) => {
       suite[key][1] :
       (
         suite[key][1] !== cross[key][1] ?
-        "Result mismatch; expected: "+cross[key][1]+", got: "+suite[key][2] :
+        "Result mismatch; expected: "+cross[key][1]+", got: "+suite[key][1] :
         suite[key][0]));
   });
   return cross;
